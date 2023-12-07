@@ -9,29 +9,29 @@
 #include <cctype>
 #include <map>
 
+
 uint32_t get_calibarion_a(const std::vector<std::string>& input)
 {
     uint32_t result{0};
-    // String is contiguoues memory of chars, so
+
+
     for (const auto& row_string : input)
     {
-        //std::cout << "Row: " << row_string;
         for (auto const& ch : row_string)
         {
             if (isdigit(ch))
             {
-                //std::cout << " First: " << (ch - '0');
                 result += 10 * (ch - '0');
                 break;
             }
         }
 
-        for (int string_index = row_string.length() - 1; string_index >= 0; string_index--) // NOLINT(*-narrowing-conversions)
+
+        for( auto rit = std::rbegin(row_string); rit != std::rend(row_string); ++rit )
         {
-            if (isdigit(row_string[string_index]))
+            if (isdigit(*rit))
             {
-                //std::cout << " Last: " << atoi(&row_string.at(string_index)) << "\n";
-                result += atoi(&row_string.at(string_index));
+                result += (*rit - '0');
                 break;
             }
         }
@@ -39,7 +39,7 @@ uint32_t get_calibarion_a(const std::vector<std::string>& input)
     return result;
 };
 
-uint32_t get_calibarion_b(std::vector<std::string> input)
+uint32_t get_calibarion_b(const std::vector<std::string>& input)
 {
     uint32_t result{0};
 
@@ -64,7 +64,7 @@ uint32_t get_calibarion_b(std::vector<std::string> input)
         {"nine", 9}
     };
 
-    for(const auto& row_string : input)
+    for (const auto& row_string : input)
     {
         std::string::size_type n;
         std::map<size_t, uint8_t> result_map = {};
@@ -72,27 +72,20 @@ uint32_t get_calibarion_b(std::vector<std::string> input)
         for (auto [key,value] : value_map)
         {
             n = row_string.find(key);
-            if(n!=std::string::npos)
+            if (n != std::string::npos)
             {
                 result_map.emplace(n, value);
             }
 
             n = row_string.rfind(key);
-            if(n!=std::string::npos)
+            if (n != std::string::npos)
             {
                 result_map.emplace(n, value);
             }
         }
-
-        for (auto [key,value] : result_map)
-        {
-            //std::cout << "key: " <<  key  << " value: "<< static_cast<size_t>(value) << "\n";
-        }
-        //std::cout << "Number: " <<  static_cast<u_int32_t>(result_map.begin()->second)  << static_cast<u_int32_t>(result_map.rbegin()->second) << "\n";
-        result += 10*result_map.begin()->second + result_map.rbegin()->second;
+        result += 10 * result_map.begin()->second + result_map.rbegin()->second;
     }
     return result;
-
 };
 
 auto main() -> int
