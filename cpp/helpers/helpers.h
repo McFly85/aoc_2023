@@ -4,9 +4,11 @@
 
 #ifndef CPP_HELPERS_H
 #define CPP_HELPERS_H
+#include <vector>
+#include <string>
 
 namespace AdventHelper {
-    std::vector<std::string> get_input_vector(const std::string &filename);
+    [[nodiscard]] std::vector<std::string> get_input_vector(const std::string &filename);
 }
 
 #endif //CPP_HELPERS_H
